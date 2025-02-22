@@ -1,6 +1,9 @@
 import json
 from abc import ABC, abstractmethod
 
+from src.vacancy import Vacancy
+
+
 class VacancySaver(ABC):
     """
     Абстрактный класс для сохранения вакансий.
@@ -44,7 +47,7 @@ class VacancySaverJson(VacancySaver):
         data = self._load_data()
         data.append(vacancy.to_dict())
         self._save_data(data)
-        print(f"Вакансия '{vacancy.title}' добавлена.")
+        print(f"Вакансия '{vacancy.name}' добавлена.")
 
     def get_vacancies(self, criteria: dict = None) -> list:
         """Получает список вакансий с фильтрацией по критериям."""
@@ -53,11 +56,11 @@ class VacancySaverJson(VacancySaver):
 
         if criteria:
             if "keyword" in criteria:
-                vacancies = [v for v in vacancies if criteria["keyword"].lower() in v.description.lower()]
+                vacancies = [v for v in vacancies if criteria["keyword"].lower() in v.responsibility.lower()]
             if "min_salary" in criteria:
-                vacancies = [v for v in vacancies if v.salary >= criteria["min_salary"]]
+                vacancies = [v for v in vacancies if (v.salary_do or v.salary_ot or 0) >= criteria["min_salary"]]
             if "max_salary" in criteria:
-                vacancies = [v for v in vacancies if v.salary <= criteria["max_salary"]]
+                vacancies = [v for v in vacancies if (v.salary_ot or v.salary_do or 0) <= criteria["max_salary"]]
 
         return vacancies
 
@@ -71,4 +74,4 @@ class VacancySaverJson(VacancySaver):
             return
 
         self._save_data(new_data)
-        print(f"Вакансия '{vacancy.title}' удалена.")
+        print(f"Вакансия '{vacancy.name}' удалена.")

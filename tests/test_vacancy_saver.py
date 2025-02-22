@@ -6,13 +6,17 @@ from src.vacancy_saver import VacancySaverJson
 
 def test_add_vacancy(mocker, sample_vacancy):
     """Тест: добавление вакансии"""
-    mocker.patch("builtins.open", mock_open())  # Имитация работы с файлом
-    vacancy_saver = VacancySaverJson("test_vacancies.json")
+    mock_open_func = mock_open(read_data="[]")  # Имитация пустого JSON-файла
+    mocker.patch("builtins.open", mock_open_func)  # Подменяем `open`
 
+    vacancy_saver = VacancySaverJson("test_vacancies.json")
     vacancy_saver.add_vacancy(sample_vacancy)
 
-    open.assert_called_once_with("test_vacancies.json", "w", encoding="utf-8")  # Проверяем запись в файл
+    # Проверяем, что `open()` вызывался дважды (сначала чтение, потом запись)
+    assert mock_open_func.call_count == 2
 
+    # Проверяем, что второй вызов `open()` был для записи
+    mock_open_func.assert_any_call("test_vacancies.json", "w", encoding="utf-8")
 
 def test_get_vacancies(mocker, sample_vacancy):
     """Тест: получение списка вакансий"""
@@ -23,7 +27,7 @@ def test_get_vacancies(mocker, sample_vacancy):
     vacancies = vacancy_saver.get_vacancies()
 
     assert len(vacancies) == 1
-    assert vacancies[0].title == "Python Developer"
+    assert vacancies[0].name == "Python Developer"
 
 
 def test_get_vacancies_filtered(mocker, sample_vacancy):

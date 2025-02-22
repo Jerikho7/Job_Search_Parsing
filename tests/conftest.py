@@ -5,6 +5,8 @@ import pytest
 from src.parser import HeadHunterParser
 from unittest.mock import mock_open
 
+from src.vacancy import Vacancy
+
 
 @pytest.fixture
 def hh_parser():
@@ -31,10 +33,25 @@ def mock_response():
 def sample_vacancy():
     """Фикстура: тестовая вакансия"""
     return Vacancy(
-        title="Python Developer",
-        url="https://hh.ru/vacancy/1",
-        salary=120000,
-        description="Разработка на Python"
+        name="Python Developer",
+        salary_ot=100000,
+        salary_do=150000,
+        responsibility="Разработка и поддержка Python-приложений",
+        date="2025-02-22",
+        url="https://example.com/vacancy/123"
+    )
+
+
+@pytest.fixture
+def another_vacancy():
+    """Фикстура для второй тестовой вакансии."""
+    return Vacancy(
+        name="Java Developer",
+        salary_ot=80000,
+        salary_do=120000,
+        responsibility="Разработка Java-приложений",
+        date="2025-02-20",
+        url="https://example.com/vacancy/456"
     )
 
 
