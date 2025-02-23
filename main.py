@@ -1,9 +1,4 @@
-from src.parser import HeadHunterParsel
+from src.user_interaction import user_interaction
 
 if __name__ == '__main__':
-    # блок кода HeadHunterAPI
-    hh_vacancies = HeadHunterParsel('тестировщик')
-    hh_vacancies.get_data()
-    vacancies = hh_vacancies.get_data()
-    print(vacancies)
-
+    user_interaction()

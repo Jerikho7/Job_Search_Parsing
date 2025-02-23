@@ -166,6 +166,12 @@ class Vacancy:
 
         :param length_list: Количество вакансий для отображения (если None, выводятся все)
         """
-        print('Вакансии:\n')
-        for idx, vac in enumerate(cls.all[:length_list] if length_list else cls.all, 1):
-            vac.print_info(idx)
+        # print('Вакансии:\n')
+        # for idx, vac in enumerate(cls.all[:length_list] if length_list else cls.all, 1):
+        #     vac.print_info(idx)
+
+        print(f'Вакансии:\n')
+        n = 0
+        for vac in cls.all[:length_list]:
+            n += 1
+            vac.print_info(n)

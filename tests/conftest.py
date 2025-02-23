@@ -59,3 +59,23 @@ def another_vacancy():
 def mock_file():
     """Фикстура: имитация работы с файлом JSON"""
     return mock_open(read_data=json.dumps([]))
+
+
+@pytest.fixture
+def mock_vacancies():
+    return [
+        {
+            "name": "Software Engineer",
+            "salary": {"from": 50000, "to": 70000},
+            "snippet": {"responsibility": "Develop software"},
+            "published_at": "2025-02-20T12:00:00+03:00",
+            "alternate_url": "https://example.com/vacancy1"
+        },
+        {
+            "name": "Data Analyst",
+            "salary": {"from": 60000, "to": 80000},
+            "snippet": {"responsibility": "Analyze data"},
+            "published_at": "2025-02-19T10:00:00+03:00",
+            "alternate_url": "https://example.com/vacancy2"
+        }
+    ]
